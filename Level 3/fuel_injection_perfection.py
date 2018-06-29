@@ -1,40 +1,35 @@
 import sys;
-import copy;
 
 def answer(n):
-	up = 0;
-	up0 = 0;
-	up1 = 0;
+	n = int(n);
 	if n == 0:
 		return 1;
 	elif n == 1:
 		return 0;
-	n0 = copy.copy(n);
-	n1 = copy.copy(n);
-	while n0 != 1:
-		if n0 % 2 != 0:
-			if (n0 + 1) % 2 == 0:
-				n0 += 1;
-				up0 += 1;
-			else:
-				n0 -= 1;
-				up0 += 1;
-		n0 /= 2;
-		up0 += 1;
-	while n1 != 1:
-		if n1 % 2 != 0:
-			if (n1 - 1) % 2 == 0:
-				n1 -= 1;
-				up1 += 1;
-			else:
-				n1 += 1;
-				up1 += 1;
-		n1 /= 2;
-		up1 += 1;
-	if up0 > up1:
-		up = up1;
-	else:
-		up = up0;
+	elif n == 2:
+		return 1;
+	elif n == 3:
+		return 2;
+	elif n < 0:
+		return n * -1 + 1; 
+	up = 0;
+	while n != 1:
+		if n == 0:
+			n += 1;
+			up += 1;
+		elif n == 3:
+			n -= 1;
+			up += 1;
+		elif (n % 2) == 0:
+			n /= 2;
+			n = int(n);
+			up += 1;
+		elif ((n - 1) & (n - 2)) < ((n + 1) & n):
+			n -= 1;
+			up += 1;
+		else:
+			n += 1;
+			up += 1;
 	return up;
 
 def main(argc, argv):
@@ -45,13 +40,10 @@ def main(argc, argv):
 		except:
 			print("Non-integer encountered.");
 			return 0;
-		if i < 0:
-			print("You may only pass a positive integer.");
-			return 0;
-		ans = answer(i);
+		ans = answer(argv[1]);
 		print(ans);
 	else:
 		print("No argument was passed.");
 
 if __name__ == "__main__":
-    main(len(sys.argv), sys.argv)
+	main(len(sys.argv), sys.argv)
